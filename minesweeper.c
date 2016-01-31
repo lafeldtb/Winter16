@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define BOARD_SIZE_MIN 5
 #define BOARD_SIZE_MAX 15
@@ -169,6 +170,15 @@ void displayMenu()
 void initBoard(int size, Cell board[][size])
 {
 	// TO DO	
+	for(int row = 0; row < size-1; row++)
+	{
+		for(int col = 0; col < size-1; col++)
+		{
+			board[row][col].is_mine = false;
+			board[row][col].mines = 0;
+			board[row][col].visible = false;
+		}	
+	}
 }
 
 /************************************************************************
@@ -221,6 +231,36 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 void displayBoard(int size, Cell board[][size], bool displayMines)
 {
 	// TO DO
+	for(int index = 0; index < size; index++)
+	{
+		if(index == 0)
+			printf(" ");
+		else
+			printf("%d",index);
+		printf(" ");
+	}
+	printf("\n");	
+	for(int row = 0; row < size-1; row++)
+	{
+		for(int col = 0; col < size-1; col++)
+		{
+			if(col != 0)
+				printf("%d ", col);
+			if(displayMines)
+			{
+				if(board[row][col].is_mine)
+					printf("*");
+				else
+					printf("?");
+			}
+			else
+			{
+				printf("?");
+			}
+			printf(" ");		
+		}
+		printf("\n");
+	}
 }
 
 /************************************************************************
@@ -233,7 +273,8 @@ int getBoardSize()
 	int size = 0;
 
 	// TO DO
-
+	printf("Enter the Board Size (5..15): ");
+	scanf("%d", &size);
 	return size;
 }
 
