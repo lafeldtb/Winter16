@@ -1,7 +1,7 @@
 /************************************************************************
  * minesweeper.c														*
  *																		*
- * Author(s): Benjamin LaFeldt 													*
+ * Author(s): Benjamin LaFeldt & Mattie Phillips 													*
  ***********************************************************************/
 
 #include <stdbool.h>
@@ -231,7 +231,9 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 void displayBoard(int size, Cell board[][size], bool displayMines)
 {
 	// TO DO
-	for(int index = 0; index < size; index++)
+	// Prints the column numbers
+	printf(" ");
+	for(int index = 0; index <= size; index++)
 	{
 		if(index == 0)
 			printf(" ");
@@ -240,12 +242,14 @@ void displayBoard(int size, Cell board[][size], bool displayMines)
 		printf(" ");
 	}
 	printf("\n");	
-	for(int row = 0; row < size-1; row++)
+	//Prints the row number then the mine
+	for(int row = 0; row < size; row++)
 	{
-		for(int col = 0; col < size-1; col++)
+		printf("%d ", row+1);
+		if(row+1 < 10)
+			printf(" ");
+		for(int col = 0; col < size; col++)
 		{
-			if(col != 0)
-				printf("%d ", col);
 			if(displayMines)
 			{
 				if(board[row][col].is_mine)
@@ -275,6 +279,7 @@ int getBoardSize()
 	// TO DO
 	printf("Enter the Board Size (5..15): ");
 	scanf("%d", &size);
+	getchar();
 	return size;
 }
 
