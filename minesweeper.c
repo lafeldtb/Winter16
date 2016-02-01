@@ -277,9 +277,11 @@ int getBoardSize()
 	int size = 0;
 
 	// TO DO
-	printf("Enter the Board Size (5..15): ");
-	scanf("%d", &size);
-	getchar();
+	while( size < 5 || size > 15) {
+		printf("Enter the Board Size (5..15): ");
+		scanf("%d", &size);
+		getchar();
+	}
 	return size;
 }
 
@@ -294,7 +296,11 @@ int getPercentMines()
 	int percent = 0;
 
 	// TO DO
-
+	while (percent < 10 || percent > 70) {
+		printf("Enter the percentage of mines on the board (10 .. 70): ");
+		scanf("%d", &percent);
+		getchar();
+	}
 	return percent;
 }
 
