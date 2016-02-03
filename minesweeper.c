@@ -170,9 +170,9 @@ void displayMenu()
 void initBoard(int size, Cell board[][size])
 {
 	// TO DO	
-	for(int row = 0; row < size-1; row++)
+	for(int row = 0; row < size; row++)
 	{
-		for(int col = 0; col < size-1; col++)
+		for(int col = 0; col < size; col++)
 		{
 			board[row][col].is_mine = false;
 			board[row][col].mines = 0;
@@ -187,6 +187,19 @@ void initBoard(int size, Cell board[][size])
 void placeMinesOnBoard(int size, Cell board[][size], int nbrMines)
 {
 	// TO DO
+	// generates random number 0-(size-1)
+	int minesLeft = nbrMines;
+	srand(time(NULL));
+	while(minesLeft > 0)
+	{
+		int row = rand() % size;
+		int col = rand() % size;
+		if(!board[row][col].is_mine)
+		{
+			board[row][col].is_mine = true;
+			minesLeft--;
+		} 
+	}
 }
 
 /************************************************************************
