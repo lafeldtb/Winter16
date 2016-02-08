@@ -143,12 +143,6 @@ int main()
 			return 0;
 		}
 	}
-
-//checking this line of code in
-	//done done test test
-	//yes
-	//test 
-	//test
 	
 	return 0;
 }
@@ -214,7 +208,15 @@ void placeMinesOnBoard(int size, Cell board[][size], int nbrMines)
  ************************************************************************/
 void fillInMineCountForNonMineCells(int size, Cell board[][size])
 {
-	// TO DO
+	for(int row = 0; row < size; row++)
+	{
+		for(int col = 0; col < size; col++)
+		{
+			if (!board[row][col].is_mine){
+				board[row][col].mines = getNbrNeighborMines(row, col, size, board);
+			}
+		}	
+	}
 }
 
 /************************************************************************
@@ -225,6 +227,15 @@ int nbrOfMines(int size, Cell board[][size])
 	int count = 0;
 	
 	// TO DO
+	for(int row = 0; row < size; row++)
+	{
+		for(int col = 0; col < size; col++)
+		{
+			if (board[row][col].is_mine){
+				++count;
+			}
+		}	
+	}
 
 	return count;
 }
@@ -237,7 +248,29 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 {
 	int count = 0;
 
-	// TO DO
+	//Check rows, above and below
+	if (row > 0){
+		if (board[row-1][col].is_mine){
+			count++;
+		}
+	}
+	if (row < size-1){
+		if (board[row+1][col].is_mine){
+			count++;
+		}
+	}
+
+	//Check columns, left and right
+	if (col > 0){
+		if (board[row][col-1].is_mine){
+			count++;
+		}
+	}
+	if (col < size-1){
+		if (board[row][col+1].is_mine){
+			count++;
+		}
+	}
 	
 	return count;
 }
@@ -329,7 +362,7 @@ int getPercentMines()
 Status selectCell(int row, int col, int size, Cell board[][size])
 {
 	// TO DO
-
+	
 	return INPROGRESS;
 }
 
