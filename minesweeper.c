@@ -289,9 +289,11 @@ void displayBoard(int size, Cell board[][size], bool displayMines)
 	{
 		if(index == 0)
 			printf(" ");
-		else
+		else{
 			printf("%d",index);
-		printf(" ");
+		}
+		if(index < 10)
+			printf(" ");
 	}
 	printf("\n");	
 	//Prints the row number then the mine
