@@ -271,6 +271,32 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 			count++;
 		}
 	}
+
+	//Check corners
+	//Check upper left corner
+	if (row > 0 && col > 0){
+		if (board[row-1][col-1].is_mine){
+			count++;
+		}
+	}
+	//Check upper right corner
+	if (row > 0 && col < size-1){
+		if (board[row-1][col+1].is_mine){
+			count++;
+		}
+	}
+	//Check lower left corner
+	if (row < size-1 && col > 0){
+		if (board[row+1][col-1].is_mine){
+			count++;
+		}
+	}
+	//Check lower right corner
+	if (row < size-1 &&  col < size-1){
+		if (board[row+1][col+1].is_mine){
+			count++;
+		}
+	}
 	
 	return count;
 }
@@ -364,7 +390,24 @@ int getPercentMines()
 Status selectCell(int row, int col, int size, Cell board[][size])
 {
 	// TO DO
-	
+	//If it's a mine say game is over
+	//Else if the whole board is visible and only mines are left, return win
+	//Else display the amount of neighboring mines
+	if (board[row][col].is_mine){
+		return LOST;
+	}
+	else if (nbrVisibleCells(size, board) == size){
+		return WON;
+	}
+	else{
+		int count = getNbrNeighborMines(row, col, size, board);
+		if (count == 0 ){
+			setAllNeighborCellsVisible(row, col, size, board);
+		}
+		else{
+			board[row][col].visible = true;
+		}
+	}
 	return INPROGRESS;
 }
 
@@ -375,8 +418,16 @@ int nbrVisibleCells(int size, Cell board[][size])
 {
 	int count = 0;
 
-	// TO DO
-	
+	for(int row = 0; row < size; row++)
+	{
+		for(int col = 0; col < size; col++)
+		{
+			if (!board[row][col].visible)
+			{
+				count++;
+			}
+		}	
+	}
 	return count;
 }
 
@@ -398,5 +449,8 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
 void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 {
 	// TO DO
+	do{
+		setImmediateNeighborCellsVisible(row, col, size, board);
+	}while (getNbrNeighborMines(row, col, size, board) == 0);
 }
 
