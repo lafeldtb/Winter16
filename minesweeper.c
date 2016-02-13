@@ -426,14 +426,10 @@ int nbrVisibleCells(int size, Cell board[][size])
 	{
 		for(int col = 0; col < size; col++)
 		{
-			if (!board[row][col].visible)
+			if (board[row][col].visible)
 			{
 				count++;
 			}
-		}	
-	}
-			if(board[row][col].visible)
-				count ++;
 		}
 	}
 
@@ -458,8 +454,8 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
 void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 {
 	// TO DO
-	do{
-		setImmediateNeighborCellsVisible(row, col, size, board);
-	}while (getNbrNeighborMines(row, col, size, board) == 0);
+	//do{
+	//	setImmediateNeighborCellsVisible(row, col, size, board);
+	//}while (getNbrNeighborMines(row, col, size, board) == 0);
 }
 
