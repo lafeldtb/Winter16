@@ -364,6 +364,7 @@ int getPercentMines()
 Status selectCell(int row, int col, int size, Cell board[][size])
 {
 	// TO DO
+	// Use the method below?
 	
 	return INPROGRESS;
 }
@@ -376,6 +377,14 @@ int nbrVisibleCells(int size, Cell board[][size])
 	int count = 0;
 
 	// TO DO
+	for(int row = 0; row < size; row++)
+	{
+		for(int col = 0; col < size; col++)
+		{
+			if(board[row][col].visible)
+				count ++;
+		}
+	}
 	
 	return count;
 }
