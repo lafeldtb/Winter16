@@ -246,6 +246,10 @@ int nbrOfMines(int size, Cell board[][size])
  ************************************************************************/
 int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 {
+	/*
+	*I hate all these if statements - If you have a better solution feel free to change
+	*
+	*/
 	int count = 0;
 
 	//Check rows, above and below
@@ -335,11 +339,19 @@ void displayBoard(int size, Cell board[][size], bool displayMines)
 				if(board[row][col].is_mine)
 					printf("*");
 				else
-					printf("?");
+					if (board[row][col].visible){
+						printf("%d", getNbrNeighborMines(row, col, size, board));
+					} else{
+						printf("?");
+					}
 			}
 			else
 			{
-				printf("?");
+				if (board[row][col].visible){
+					printf("%d", getNbrNeighborMines(row, col, size, board));
+				} else{
+					printf("?");
+				}
 			}
 			printf(" ");		
 		}
@@ -401,9 +413,11 @@ Status selectCell(int row, int col, int size, Cell board[][size])
 		return WON;
 	}
 	else{
+		//Incomplete
 		int count = getNbrNeighborMines(row, col, size, board);
 		if (count == 0 ){
 			setAllNeighborCellsVisible(row, col, size, board);
+			//I don't quite understand what the difference is between setAll and setNeighbor methods and when we should use...
 		}
 		else{
 			board[row][col].visible = true;
