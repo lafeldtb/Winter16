@@ -390,6 +390,7 @@ int getPercentMines()
 Status selectCell(int row, int col, int size, Cell board[][size])
 {
 	// TO DO
+
 	//If it's a mine say game is over
 	//Else if the whole board is visible and only mines are left, return win
 	//Else display the amount of neighboring mines
@@ -408,6 +409,9 @@ Status selectCell(int row, int col, int size, Cell board[][size])
 			board[row][col].visible = true;
 		}
 	}
+
+	// Use the method below?
+
 	return INPROGRESS;
 }
 
@@ -428,6 +432,11 @@ int nbrVisibleCells(int size, Cell board[][size])
 			}
 		}	
 	}
+			if(board[row][col].visible)
+				count ++;
+		}
+	}
+
 	return count;
 }
 
