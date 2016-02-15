@@ -244,10 +244,6 @@ int nbrOfMines(int size, Cell board[][size])
  ************************************************************************/
 int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 {
-	/*
-	*I hate all these if statements - If you have a better solution feel free to change
-	*
-	*/
 	int count = 0;
 
 	for (int currentCol=col-1; currentCol<col+2; currentCol++){
@@ -255,6 +251,7 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 		if (currentCol >= 0 && currentCol < size-1){
 			//Iterate through each row
 			for (int currentRow=row-1; currentRow<row+2; currentRow++){
+				//Check row is within index
 				if (currentRow < size-1 && currentRow >= 0 ){
 					if (board[currentRow][currentCol].is_mine){
 						count++;
@@ -375,19 +372,11 @@ Status selectCell(int row, int col, int size, Cell board[][size])
 		return WON;
 	}
 	else{
-		//Incomplete
 		board[row][col].visible = true;
-		// int count = getNbrNeighborMines(row, col, size, board);
-		// if (count == 0 ){
-		// 	setAllNeighborCellsVisible(row, col, size, board);
-		// 	//I don't quite understand what the difference is between setAll and setNeighbor methods and when we should use...
-		// }
-		// else{
-		// 	board[row][col].visible = true;
-		// }
+		if (board[row][col].mines == 0){
+			setAllNeighborCellsVisible(row, col, size, board);
+		}
 	}
-
-	// Use the method below?
 
 	return INPROGRESS;
 }
@@ -413,14 +402,27 @@ int nbrVisibleCells(int size, Cell board[][size])
 	return count;
 }
 
-/************************************************************************
- * If the mine count of a cell at location (row,col) is zero, then make	*
- * the cells ONLY in the immediate neighborhood visible.				*
- ************************************************************************/
-void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][size])
-{
-	// TO DO
-}
+// /*/************************************************************************
+//  * If the mine count of a cell at location (row,col) is zero, then make	*
+//  * the cells ONLY in the immediate neighborhood visible.				*
+//  ************************************************************************/
+// void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][size])
+// {
+// 	for (int currentCol=col-1; currentCol<col+2; currentCol++){
+// 		//Check the current selected column is within the array bounds
+// 		if (currentCol >= 0 && currentCol < size-1){
+// 			//Iterate through each row
+// 			for (int currentRow=row-1; currentRow<row+2; currentRow++){
+// 				//Check row is within index
+// 				if (currentRow < size-1 && currentRow >= 0 ){
+// 					if (!board[currentRow][currentCol].is_mine){
+// 						board[currentRow][currentCol].visible = true;
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// }*/
 
 /************************************************************************
  * If the mine count of a cell at location (row,col) is zero, then make	*
@@ -430,9 +432,23 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
  ************************************************************************/
 void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 {
-	// TO DO
-	//do{
-	//	setImmediateNeighborCellsVisible(row, col, size, board);
-	//}while (getNbrNeighborMines(row, col, size, board) == 0);
+
+	for (int currentCol=col-1; currentCol<col+2; currentCol++){
+		//Check the current selected column is within the array bounds
+		if (currentCol >= 0 && currentCol < size-1){
+			//Iterate through each row
+			for (int currentRow=row-1; currentRow<row+2; currentRow++){
+				//Check row is within index
+				if (currentRow < size-1 && currentRow >= 0 ){
+					if (!board[currentRow][currentCol].is_mine){
+						board[currentRow][currentCol].visible = true;
+						if (board[currentRow][currentRow].mines == 0){
+							setAllNeighborCellsVisible(currentRow, currentCol, size, board);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
