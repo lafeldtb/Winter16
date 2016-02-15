@@ -360,17 +360,16 @@ Status selectCell(int row, int col, int size, Cell board[][size])
 	//If it's a mine say game is over
 	//Else if the whole board is visible and only mines are left, return win
 	//Else display the amount of neighboring mines
+	
+	board[row][col].visible = true;
+	if (board[row][col].mines == 0){
+		setAllNeighborCellsVisible(row, col, size, board);
+	}
 	if (board[row][col].is_mine){
 		return LOST;
 	}
-	else if (nbrVisibleCells(size, board) == size){
+	else if (nbrVisibleCells(size, board) == (size*size)-nbrOfMines(size, board)){
 		return WON;
-	}
-	else{
-		board[row][col].visible = true;
-		if (board[row][col].mines == 0){
-			setAllNeighborCellsVisible(row, col, size, board);
-		}
 	}
 
 	return INPROGRESS;
@@ -409,11 +408,11 @@ void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 			//Iterate through each row
 			for (int currentRow=row-1; currentRow<row+2; currentRow++){
 				//Check row is within index
-				if (currentRow < size && currentRow >= 0 ){
+				if (currentRow >= 0 && currentRow < size){
 					if (!board[currentRow][currentCol].is_mine){
 						board[currentRow][currentCol].visible = true;
 						if (board[currentRow][currentCol].mines == 0){
-							setAllNeighborCellsVisible(currentRow, currentCol, size, board);
+							//return setAllNeighborCellsVisible(currentRow, currentCol, size, board);
 						}
 					}
 				}
