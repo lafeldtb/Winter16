@@ -252,53 +252,17 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 	*/
 	int count = 0;
 
-	//Check rows, above and below
-	if (row > 0){
-		if (board[row-1][col].is_mine){
-			count++;
-		}
-	}
-	if (row < size-1){
-		if (board[row+1][col].is_mine){
-			count++;
-		}
-	}
-
-	//Check columns, left and right
-	if (col > 0){
-		if (board[row][col-1].is_mine){
-			count++;
-		}
-	}
-	if (col < size-1){
-		if (board[row][col+1].is_mine){
-			count++;
-		}
-	}
-
-	//Check corners
-	//Check upper left corner
-	if (row > 0 && col > 0){
-		if (board[row-1][col-1].is_mine){
-			count++;
-		}
-	}
-	//Check upper right corner
-	if (row > 0 && col < size-1){
-		if (board[row-1][col+1].is_mine){
-			count++;
-		}
-	}
-	//Check lower left corner
-	if (row < size-1 && col > 0){
-		if (board[row+1][col-1].is_mine){
-			count++;
-		}
-	}
-	//Check lower right corner
-	if (row < size-1 &&  col < size-1){
-		if (board[row+1][col+1].is_mine){
-			count++;
+	for (int currentCol=col-1; currentCol<col+2; currentCol++){
+		//Check the current selected column is within the array bounds
+		if (currentCol >= 0 && currentCol < size-1){
+			//Iterate through each row
+			for (int currentRow=row-1; currentRow<row+2; currentRow++){
+				if (currentRow < size-1 && currentRow >= 0 && (currentCol != col && currentRow != row)){
+					if (board[currentRow][currentCol].is_mine){
+						count++;
+					}
+				}
+			}
 		}
 	}
 	
@@ -340,7 +304,7 @@ void displayBoard(int size, Cell board[][size], bool displayMines)
 					printf("*");
 				else
 					if (board[row][col].visible){
-						printf("%d", getNbrNeighborMines(row, col, size, board));
+						printf("%d", board[row][col].mines);
 					} else{
 						printf("?");
 					}
@@ -348,7 +312,7 @@ void displayBoard(int size, Cell board[][size], bool displayMines)
 			else
 			{
 				if (board[row][col].visible){
-					printf("%d", getNbrNeighborMines(row, col, size, board));
+					printf("%d", board[row][col].mines);
 				} else{
 					printf("?");
 				}
@@ -414,14 +378,15 @@ Status selectCell(int row, int col, int size, Cell board[][size])
 	}
 	else{
 		//Incomplete
-		int count = getNbrNeighborMines(row, col, size, board);
-		if (count == 0 ){
-			setAllNeighborCellsVisible(row, col, size, board);
-			//I don't quite understand what the difference is between setAll and setNeighbor methods and when we should use...
-		}
-		else{
-			board[row][col].visible = true;
-		}
+		board[row][col].visible = true;
+		// int count = getNbrNeighborMines(row, col, size, board);
+		// if (count == 0 ){
+		// 	setAllNeighborCellsVisible(row, col, size, board);
+		// 	//I don't quite understand what the difference is between setAll and setNeighbor methods and when we should use...
+		// }
+		// else{
+		// 	board[row][col].visible = true;
+		// }
 	}
 
 	// Use the method below?
