@@ -169,7 +169,6 @@ void displayMenu()
  ************************************************************************/
 void initBoard(int size, Cell board[][size])
 {
-	// TO DO	
 	for(int row = 0; row < size; row++)
 	{
 		for(int col = 0; col < size; col++)
@@ -186,7 +185,6 @@ void initBoard(int size, Cell board[][size])
  ************************************************************************/
 void placeMinesOnBoard(int size, Cell board[][size], int nbrMines)
 {
-	// TO DO
 	// generates random number 0-(size-1)
 	int minesLeft = nbrMines;
 	srand(time(NULL));
@@ -225,8 +223,6 @@ void fillInMineCountForNonMineCells(int size, Cell board[][size])
 int nbrOfMines(int size, Cell board[][size])
 {
 	int count = 0;
-	
-	// TO DO
 	for(int row = 0; row < size; row++)
 	{
 		for(int col = 0; col < size; col++)
@@ -246,59 +242,19 @@ int nbrOfMines(int size, Cell board[][size])
  ************************************************************************/
 int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 {
-	/*
-	*I hate all these if statements - If you have a better solution feel free to change
-	*
-	*/
 	int count = 0;
-
-	//Check rows, above and below
-	if (row > 0){
-		if (board[row-1][col].is_mine){
-			count++;
-		}
-	}
-	if (row < size-1){
-		if (board[row+1][col].is_mine){
-			count++;
-		}
-	}
-
-	//Check columns, left and right
-	if (col > 0){
-		if (board[row][col-1].is_mine){
-			count++;
-		}
-	}
-	if (col < size-1){
-		if (board[row][col+1].is_mine){
-			count++;
-		}
-	}
-
-	//Check corners
-	//Check upper left corner
-	if (row > 0 && col > 0){
-		if (board[row-1][col-1].is_mine){
-			count++;
-		}
-	}
-	//Check upper right corner
-	if (row > 0 && col < size-1){
-		if (board[row-1][col+1].is_mine){
-			count++;
-		}
-	}
-	//Check lower left corner
-	if (row < size-1 && col > 0){
-		if (board[row+1][col-1].is_mine){
-			count++;
-		}
-	}
-	//Check lower right corner
-	if (row < size-1 &&  col < size-1){
-		if (board[row+1][col+1].is_mine){
-			count++;
+	for (int currentCol=col-1; currentCol<col+2; currentCol++){
+		//Check the current selected column is within the array bounds
+		if (currentCol >= 0 && currentCol < size){
+			//Iterate through each row
+			for (int currentRow=row-1; currentRow<row+2; currentRow++){
+				//Check row is within index
+				if (currentRow < size && currentRow >= 0 ){
+					if (board[currentRow][currentCol].is_mine){
+						count++;
+					}
+				}
+			}
 		}
 	}
 	
@@ -312,7 +268,11 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
  ************************************************************************/
 void displayBoard(int size, Cell board[][size], bool displayMines)
 {
-	// TO DO
+
+	char RED[] = "\x1b[31;1m";
+	char GREEN[] = "\x1b[32;1m";
+	char BLUE[] = "\x1b[34;1m";
+	char RESET[] = "\x1b[0m";
 	// Prints the column numbers
 	printf(" ");
 	for(int index = 0; index <= size; index++)
@@ -337,20 +297,20 @@ void displayBoard(int size, Cell board[][size], bool displayMines)
 			if(displayMines)
 			{
 				if(board[row][col].is_mine)
-					printf("*");
+					printf("%s*%s", RED, RESET);
 				else
 					if (board[row][col].visible){
-						printf("%d", getNbrNeighborMines(row, col, size, board));
+						printf("%s%d%s", GREEN, board[row][col].mines, RESET);
 					} else{
-						printf("?");
+						printf("%s?%s", BLUE, RESET);
 					}
 			}
 			else
 			{
 				if (board[row][col].visible){
-					printf("%d", getNbrNeighborMines(row, col, size, board));
+					printf("%s%d%s", GREEN, board[row][col].mines, RESET);
 				} else{
-					printf("?");
+					printf("%s?%s", BLUE, RESET);
 				}
 			}
 			printf(" ");		
@@ -367,8 +327,6 @@ void displayBoard(int size, Cell board[][size], bool displayMines)
 int getBoardSize()
 {
 	int size = 0;
-
-	// TO DO
 	while( size < 5 || size > 15) {
 		printf("Enter the Board Size (5..15): ");
 		scanf("%d", &size);
@@ -386,8 +344,6 @@ int getBoardSize()
 int getPercentMines()
 {
 	int percent = 0;
-
-	// TO DO
 	while (percent < 10 || percent > 70) {
 		printf("Enter the percentage of mines on the board (10 .. 70): ");
 		scanf("%d", &percent);
@@ -401,30 +357,20 @@ int getPercentMines()
  ************************************************************************/
 Status selectCell(int row, int col, int size, Cell board[][size])
 {
-	// TO DO
-
 	//If it's a mine say game is over
 	//Else if the whole board is visible and only mines are left, return win
 	//Else display the amount of neighboring mines
+	
+	board[row][col].visible = true;
+	if (board[row][col].mines == 0){
+		setAllNeighborCellsVisible(row, col, size, board);
+	}
 	if (board[row][col].is_mine){
 		return LOST;
 	}
-	else if (nbrVisibleCells(size, board) == size){
+	else if (nbrVisibleCells(size, board) == (size*size)-nbrOfMines(size, board)){
 		return WON;
 	}
-	else{
-		//Incomplete
-		int count = getNbrNeighborMines(row, col, size, board);
-		if (count == 0 ){
-			setAllNeighborCellsVisible(row, col, size, board);
-			//I don't quite understand what the difference is between setAll and setNeighbor methods and when we should use...
-		}
-		else{
-			board[row][col].visible = true;
-		}
-	}
-
-	// Use the method below?
 
 	return INPROGRESS;
 }
@@ -435,7 +381,6 @@ Status selectCell(int row, int col, int size, Cell board[][size])
 int nbrVisibleCells(int size, Cell board[][size])
 {
 	int count = 0;
-
 	for(int row = 0; row < size; row++)
 	{
 		for(int col = 0; col < size; col++)
@@ -446,7 +391,6 @@ int nbrVisibleCells(int size, Cell board[][size])
 			}
 		}
 	}
-
 	return count;
 }
 
@@ -477,7 +421,7 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
 				board[row+1][col-1].visible = true;
 			}
 			//Col is at right edge
-			if(col == size-1)
+			else if(col == size-1)
 			{
 				board[row+1][col].visible = true;
 				board[row-1][col].visible = true;
@@ -486,7 +430,7 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
 				board[row+1][col-1].visible = true;	
 			}
 			//Col is at left edge
-			if(col == 0)
+			else if(col == 0)
 			{
 				board[row+1][col].visible = true;
 				board[row+1][col+1].visible = true;
@@ -495,7 +439,63 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
 				board[row-1][col].visible = true;
 			}
 		}	
-		//Row is 
+		//Row is at the top
+		else if(row == size-1)
+		{
+			//Col is within borders
+			if(col > 0 && col < size-1)
+			{
+				board[row][col+1].visible = true;
+				board[row-1][col+1].visible = true;
+				board[row-1][col].visible = true;
+				board[row-1][col-1].visible = true;
+				board[row][col-1].visible = true;
+			}
+			//Col is at right edge
+			else if(col == size-1)
+			{
+				board[row-1][col].visible = true;
+				board[row-1][col-1].visible = true;
+				board[row][col-1].visible = true;
+			}
+			//Col is at left edge
+			else if(col == 0)
+			{
+				board[row][col+1].visible = true;
+				board[row-1][col+1].visible = true;
+				board[row-1][col].visible = true;
+			}
+			
+		}
+		//Row is at the bottom
+		else if(row == 0)
+		{
+			//Col is within borders
+			if(col > 0 && col < size-1)
+			{
+				board[row+1][col].visible = true;
+				board[row+1][col+1].visible = true;
+				board[row][col+1].visible = true;
+				board[row][col-1].visible = true;
+				board[row+1][col-1].visible = true;
+			}
+			//Col is at right edge
+			else if(col == size-1)
+			{
+				board[row+1][col].visible = true;
+				board[row][col-1].visible = true;
+				board[row+1][col-1].visible = true;	
+			}
+			//Col is at left edge
+			else if(col == 0)
+			{
+				board[row+1][col].visible = true;
+				board[row+1][col+1].visible = true;
+				board[row][col+1].visible = true;
+			}
+			
+		}
+
 	}
 }
 
@@ -507,9 +507,22 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
  ************************************************************************/
 void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 {
-	// TO DO
-	//do{
-	//	setImmediateNeighborCellsVisible(row, col, size, board);
-	//}while (getNbrNeighborMines(row, col, size, board) == 0);
+	for (int currentCol=col-1; currentCol<col+2; currentCol++){
+		//Check the current selected column is within the array bounds
+		if (currentCol >= 0 && currentCol < size){
+			//Iterate through each row
+			for (int currentRow=row-1; currentRow<row+2; currentRow++){
+				//Check row is within index
+				if (currentRow >= 0 && currentRow < size){
+					if (!board[currentRow][currentCol].is_mine){
+						board[currentRow][currentCol].visible = true;
+						if (board[currentRow][currentCol].mines == 0){
+							//return setAllNeighborCellsVisible(currentRow, currentCol, size, board);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
