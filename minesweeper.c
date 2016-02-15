@@ -457,6 +457,46 @@ int nbrVisibleCells(int size, Cell board[][size])
 void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 {
 	// TO DO
+	// Make sure that the cell is not on an edge
+	// create if statement guarenteeing it will not set a mine => size or < 0
+	if(board[row][col].mines == 0)
+	{
+		//Row is within borders
+		if(row > 0 && row < size-1)
+		{
+			//Col is within borders
+			if(col > 0 && col < size-1)
+			{
+				board[row+1][col].visible = true;
+				board[row+1][col+1].visible = true;
+				board[row][col+1].visible = true;
+				board[row-1][col+1].visible = true;
+				board[row-1][col].visible = true;
+				board[row-1][col-1].visible = true;
+				board[row][col-1].visible = true;
+				board[row+1][col-1].visible = true;
+			}
+			//Col is at right edge
+			if(col == size-1)
+			{
+				board[row+1][col].visible = true;
+				board[row-1][col].visible = true;
+				board[row-1][col-1].visible = true;
+				board[row][col-1].visible = true;
+				board[row+1][col-1].visible = true;	
+			}
+			//Col is at left edge
+			if(col == 0)
+			{
+				board[row+1][col].visible = true;
+				board[row+1][col+1].visible = true;
+				board[row][col+1].visible = true;
+				board[row-1][col+1].visible = true;
+				board[row-1][col].visible = true;
+			}
+		}	
+		//Row is 
+	}
 }
 
 /************************************************************************
