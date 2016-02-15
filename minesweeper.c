@@ -268,6 +268,11 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
  ************************************************************************/
 void displayBoard(int size, Cell board[][size], bool displayMines)
 {
+
+	char RED[] = "\x1b[31;1m";
+	char GREEN[] = "\x1b[32;1m";
+	char BLUE[] = "\x1b[34;1m";
+	char RESET[] = "\x1b[0m";
 	// Prints the column numbers
 	printf(" ");
 	for(int index = 0; index <= size; index++)
@@ -292,20 +297,20 @@ void displayBoard(int size, Cell board[][size], bool displayMines)
 			if(displayMines)
 			{
 				if(board[row][col].is_mine)
-					printf("*");
+					printf("%s*%s", RED, RESET);
 				else
 					if (board[row][col].visible){
-						printf("%d", board[row][col].mines);
+						printf("%s%d%s", GREEN, board[row][col].mines, RESET);
 					} else{
-						printf("?");
+						printf("%s?%s", BLUE, RESET);
 					}
 			}
 			else
 			{
 				if (board[row][col].visible){
-					printf("%d", board[row][col].mines);
+					printf("%s%d%s", GREEN, board[row][col].mines, RESET);
 				} else{
-					printf("?");
+					printf("%s?%s", BLUE, RESET);
 				}
 			}
 			printf(" ");		
@@ -408,7 +413,7 @@ void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 					if (!board[currentRow][currentCol].is_mine){
 						board[currentRow][currentCol].visible = true;
 						if (board[currentRow][currentCol].mines == 0){
-							//setAllNeighborCellsVisible(currentRow, currentCol, size, board);
+							setAllNeighborCellsVisible(currentRow, currentCol, size, board);
 						}
 					}
 				}
