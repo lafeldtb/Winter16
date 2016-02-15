@@ -169,7 +169,6 @@ void displayMenu()
  ************************************************************************/
 void initBoard(int size, Cell board[][size])
 {
-	// TO DO	
 	for(int row = 0; row < size; row++)
 	{
 		for(int col = 0; col < size; col++)
@@ -226,7 +225,6 @@ int nbrOfMines(int size, Cell board[][size])
 {
 	int count = 0;
 	
-	// TO DO
 	for(int row = 0; row < size; row++)
 	{
 		for(int col = 0; col < size; col++)
@@ -257,7 +255,7 @@ int getNbrNeighborMines(int row, int col, int size, Cell board[][size])
 		if (currentCol >= 0 && currentCol < size-1){
 			//Iterate through each row
 			for (int currentRow=row-1; currentRow<row+2; currentRow++){
-				if (currentRow < size-1 && currentRow >= 0 && (currentCol != col && currentRow != row)){
+				if (currentRow < size-1 && currentRow >= 0 ){
 					if (board[currentRow][currentCol].is_mine){
 						count++;
 					}
