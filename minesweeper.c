@@ -53,8 +53,6 @@ Status selectCell(int row, int col, int size, Cell board[][size]);
 
 int nbrVisibleCells(int size, Cell board[][size]);
 
-void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][size]);
-
 void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size]);
 
 
@@ -394,110 +392,6 @@ int nbrVisibleCells(int size, Cell board[][size])
 	return count;
 }
 
-/************************************************************************
- * If the mine count of a cell at location (row,col) is zero, then make	*
- * the cells ONLY in the immediate neighborhood visible.				*
- ************************************************************************/
-void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][size])
-{
-	// TO DO
-	// Make sure that the cell is not on an edge
-	// create if statement guarenteeing it will not set a mine => size or < 0
-	if(board[row][col].mines == 0)
-	{
-		//Row is within borders
-		if(row > 0 && row < size-1)
-		{
-			//Col is within borders
-			if(col > 0 && col < size-1)
-			{
-				if(board[row+1][col].visible== false){board[row+1][col].visible = true;}
-				if(board[row+1][col+1].visible == false){board[row+1][col+1].visible = true;}
-				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
-				if(board[row-1][col+1].visible == false){board[row-1][col+1].visible = true;}
-				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
-				if(board[row-1][col-1].visible == false){board[row-1][col-1].visible = true;};
-				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
-				if(board[row+1][col-1].visible == false){board[row+1][col-1].visible = true;}
-				
-			}
-			//Col is at right edge
-			else if(col == size-1)
-			{
-				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
-				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
-				if(board[row-1][col-1].visible == false){board[row-1][col-1].visible = true;}
-				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
-				if(board[row+1][col-1].visible == false){board[row+1][col-1].visible = true;}
-			}
-			//Col is at left edge
-			else if(col == 0)
-			{
-				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
-				if(board[row+1][col+1].visible == false){board[row+1][col+1].visible = true;}
-				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
-				if(board[row-1][col+1].visible == false){board[row-1][col+1].visible = true;}
-				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
-			}
-		}	
-		//Row is at the bottom
-		else if(row == size-1)
-		{
-			//Col is within borders
-			if(col > 0 && col < size-1)
-			{
-				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
-				if(board[row-1][col+1].visible == false){board[row-1][col+1].visible = true;}
-				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
-				if(board[row-1][col-1].visible == false){board[row-1][col-1].visible = true;}
-				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
-			}
-			//Col is at right edge
-			else if(col == size-1)
-			{
-				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
-				if(board[row-1][col-1].visible == false){board[row-1][col-1].visible = true;}
-				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
-			}
-			//Col is at left edge
-			else if(col == 0)
-			{
-				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
-				if(board[row-1][col+1].visible == false){board[row-1][col+1].visible = true;}
-				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
-			}
-			
-		}
-		//Row is at the top
-		else if(row == 0)
-		{
-			//Col is within borders
-			if(col > 0 && col < size-1)
-			{
-				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
-				if(board[row+1][col+1].visible == false){board[row+1][col+1].visible = true;}
-				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
-				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
-				if(board[row+1][col-1].visible == false){board[row+1][col-1].visible = true;}
-			}
-			//Col is at right edge
-			else if(col == size-1)
-			{
-				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
-				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
-				if(board[row+1][col-1].visible == false){board[row+1][col-1].visible = true;	}
-			}
-			//Col is at left edge
-			else if(col == 0)
-			{
-				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
-				if(board[row+1][col+1].visible == false){board[row+1][col+1].visible = true;}
-				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
-			}
-			
-		}
-	}	
-}
 
 /************************************************************************
  * If the mine count of a cell at location (row,col) is zero, then make	*
