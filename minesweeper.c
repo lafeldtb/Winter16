@@ -361,10 +361,10 @@ Status selectCell(int row, int col, int size, Cell board[][size])
 	//Else if the whole board is visible and only mines are left, return win
 	//Else display the amount of neighboring mines
 	
-	board[row][col].visible = true;
 	if (board[row][col].mines == 0){
 		setAllNeighborCellsVisible(row, col, size, board);
 	}
+	board[row][col].visible = true;
 	if (board[row][col].is_mine){
 		return LOST;
 	}
@@ -507,26 +507,18 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
  ************************************************************************/
 void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 {
-	if(board[row][col].mines == 0 && board[row][col].visible == true)
+	if(board[row][col].visible == false)
 	{
-		setImmediateNeighborCellsVisible(row, col, size, board);
-		//If row isn't on the edge
-		if(row > 0 && row < size-1)
-		{
-			//If col isn't on edge		
-			if(col > 0 && col < size-1)
-			{
+		board[row][col].visible = true;
+		if(board[row][col].mines == 0) {
+			if(row < size-1)
+				setAllNeighborCellsVisible(row+1, col, size, board);
+			if(row > 0)
 				setAllNeighborCellsVisible(row-1, col, size, board);
-		//		setAllNeighborCellsVisible(row+1, col, size, board);
-		//		setAllNeighborCellsVisible(row, col-1, size, board);
-		//		setAllNeighborCellsVisible(row, col+1, size, board);
-			
-			}
-			//col is at right edge
-			else if(col == size-1)
-			{
-
-			}
+			if(col < size-1)
+				setAllNeighborCellsVisible(row, col+1, size, board);
+			if(col > 0)
+				setAllNeighborCellsVisible(row, col-1, size, board);
 		}
 	}
 }
