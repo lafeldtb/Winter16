@@ -411,92 +411,92 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
 			//Col is within borders
 			if(col > 0 && col < size-1)
 			{
-				board[row+1][col].visible = true;
-				board[row+1][col+1].visible = true;
-				board[row][col+1].visible = true;
-				board[row-1][col+1].visible = true;
-				board[row-1][col].visible = true;
-				board[row-1][col-1].visible = true;
-				board[row][col-1].visible = true;
-				board[row+1][col-1].visible = true;
+				if(board[row+1][col].visible== false){board[row+1][col].visible = true;}
+				if(board[row+1][col+1].visible == false){board[row+1][col+1].visible = true;}
+				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
+				if(board[row-1][col+1].visible == false){board[row-1][col+1].visible = true;}
+				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
+				if(board[row-1][col-1].visible == false){board[row-1][col-1].visible = true;};
+				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
+				if(board[row+1][col-1].visible == false){board[row+1][col-1].visible = true;}
+				
 			}
 			//Col is at right edge
 			else if(col == size-1)
 			{
-				board[row+1][col].visible = true;
-				board[row-1][col].visible = true;
-				board[row-1][col-1].visible = true;
-				board[row][col-1].visible = true;
-				board[row+1][col-1].visible = true;	
+				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
+				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
+				if(board[row-1][col-1].visible == false){board[row-1][col-1].visible = true;}
+				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
+				if(board[row+1][col-1].visible == false){board[row+1][col-1].visible = true;}
 			}
 			//Col is at left edge
 			else if(col == 0)
 			{
-				board[row+1][col].visible = true;
-				board[row+1][col+1].visible = true;
-				board[row][col+1].visible = true;
-				board[row-1][col+1].visible = true;
-				board[row-1][col].visible = true;
+				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
+				if(board[row+1][col+1].visible == false){board[row+1][col+1].visible = true;}
+				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
+				if(board[row-1][col+1].visible == false){board[row-1][col+1].visible = true;}
+				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
 			}
 		}	
-		//Row is at the top
+		//Row is at the bottom
 		else if(row == size-1)
 		{
 			//Col is within borders
 			if(col > 0 && col < size-1)
 			{
-				board[row][col+1].visible = true;
-				board[row-1][col+1].visible = true;
-				board[row-1][col].visible = true;
-				board[row-1][col-1].visible = true;
-				board[row][col-1].visible = true;
+				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
+				if(board[row-1][col+1].visible == false){board[row-1][col+1].visible = true;}
+				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
+				if(board[row-1][col-1].visible == false){board[row-1][col-1].visible = true;}
+				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
 			}
 			//Col is at right edge
 			else if(col == size-1)
 			{
-				board[row-1][col].visible = true;
-				board[row-1][col-1].visible = true;
-				board[row][col-1].visible = true;
+				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
+				if(board[row-1][col-1].visible == false){board[row-1][col-1].visible = true;}
+				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
 			}
 			//Col is at left edge
 			else if(col == 0)
 			{
-				board[row][col+1].visible = true;
-				board[row-1][col+1].visible = true;
-				board[row-1][col].visible = true;
+				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
+				if(board[row-1][col+1].visible == false){board[row-1][col+1].visible = true;}
+				if(board[row-1][col].visible == false){board[row-1][col].visible = true;}
 			}
 			
 		}
-		//Row is at the bottom
+		//Row is at the top
 		else if(row == 0)
 		{
 			//Col is within borders
 			if(col > 0 && col < size-1)
 			{
-				board[row+1][col].visible = true;
-				board[row+1][col+1].visible = true;
-				board[row][col+1].visible = true;
-				board[row][col-1].visible = true;
-				board[row+1][col-1].visible = true;
+				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
+				if(board[row+1][col+1].visible == false){board[row+1][col+1].visible = true;}
+				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
+				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
+				if(board[row+1][col-1].visible == false){board[row+1][col-1].visible = true;}
 			}
 			//Col is at right edge
 			else if(col == size-1)
 			{
-				board[row+1][col].visible = true;
-				board[row][col-1].visible = true;
-				board[row+1][col-1].visible = true;	
+				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
+				if(board[row][col-1].visible == false){board[row][col-1].visible = true;}
+				if(board[row+1][col-1].visible == false){board[row+1][col-1].visible = true;	}
 			}
 			//Col is at left edge
 			else if(col == 0)
 			{
-				board[row+1][col].visible = true;
-				board[row+1][col+1].visible = true;
-				board[row][col+1].visible = true;
+				if(board[row+1][col].visible == false){board[row+1][col].visible = true;}
+				if(board[row+1][col+1].visible == false){board[row+1][col+1].visible = true;}
+				if(board[row][col+1].visible == false){board[row][col+1].visible = true;}
 			}
 			
 		}
-
-	}
+	}	
 }
 
 /************************************************************************
@@ -507,20 +507,25 @@ void setImmediateNeighborCellsVisible(int row, int col, int size, Cell board[][s
  ************************************************************************/
 void setAllNeighborCellsVisible(int row, int col, int size, Cell board[][size])
 {
-	for (int currentCol=col-1; currentCol<col+2; currentCol++){
-		//Check the current selected column is within the array bounds
-		if (currentCol >= 0 && currentCol < size){
-			//Iterate through each row
-			for (int currentRow=row-1; currentRow<row+2; currentRow++){
-				//Check row is within index
-				if (currentRow >= 0 && currentRow < size){
-					if (!board[currentRow][currentCol].is_mine){
-						board[currentRow][currentCol].visible = true;
-						if (board[currentRow][currentCol].mines == 0){
-							//return setAllNeighborCellsVisible(currentRow, currentCol, size, board);
-						}
-					}
-				}
+	if(board[row][col].mines == 0 && board[row][col].visible == true)
+	{
+		setImmediateNeighborCellsVisible(row, col, size, board);
+		//If row isn't on the edge
+		if(row > 0 && row < size-1)
+		{
+			//If col isn't on edge		
+			if(col > 0 && col < size-1)
+			{
+				setAllNeighborCellsVisible(row-1, col, size, board);
+		//		setAllNeighborCellsVisible(row+1, col, size, board);
+		//		setAllNeighborCellsVisible(row, col-1, size, board);
+		//		setAllNeighborCellsVisible(row, col+1, size, board);
+			
+			}
+			//col is at right edge
+			else if(col == size-1)
+			{
+
 			}
 		}
 	}
