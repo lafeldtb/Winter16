@@ -4,11 +4,11 @@
  * Reads from a dictionary of words and builds lists of anagrams		*
  * (see example dictionary files and output produced for each 			*
  * input/dictionary file).												*
- *																		*
+ *																	o	*
  * An anagram is a word formed by rearranging the letters of another	*
  * word such as the word "cinema" formed from the word "iceman".		*
  *																		*
- * Author(s): 															*
+ * Author(s): 	Mattie Phillips and Ben LaFeldt							*
  ***********************************************************************/
 
 #include <stdbool.h>
@@ -105,9 +105,17 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 		fprintf(stderr,"Error opening file %s\n", infile);
 		exit(EXIT_FAILURE);
 	}
-
-	// TO DO
 	
+    ary = malloc(sizeof(struct node));
+	while(fgets(word, MAX_WORD_SIZE, fp) != NULL){
+		//printf("%s\n", word); 
+		ary = createNode(word);
+		ary->head = node;
+		node = ary;
+		curAryLen += 1;
+		nbrUsedInAry += 1;
+	}
+
 	fclose(fp);
 	
 	*aryLen = nbrUsedInAry;
@@ -128,7 +136,7 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 		exit(EXIT_FAILURE);
 	}
 
-	// TO DO
+	// TO DO	
 	
 	fclose(fp);
 }
@@ -165,9 +173,9 @@ void freeAnagramArray(AryElement *ary, int aryLen)
 Node *createNode(char *word)
 {
 	Node *node = NULL;
-
-	// TO DO
-	
+	node = malloc(sizeof(struct node));
+	node.text = word;
+	node.next = NULL
 	return node;
 }
 
@@ -177,7 +185,23 @@ Node *createNode(char *word)
  ************************************************************************/
 bool areAnagrams(char *word1, char *word2)
 {
-	// TO DO
+	if (sizeof(word1) != sizeof(word2)){
+		return false;
+	}
 
-	return true;
+	char *build[sizeof(word1)];
+	for (int i=0; i < sizeof(word1); i++){
+		for (int j=0; j<sizeof(word2); j++){
+			if (word1[i] == word2[j]){
+				build[i] = word2[i];
+				word2[j] = '';
+			}
+		}
+	}
+
+	if (word1 == build){
+		return true;
+	}
+
+	return false;
 }
