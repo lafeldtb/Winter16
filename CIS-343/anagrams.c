@@ -51,6 +51,8 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen);
 
 void freeAnagramArray(AryElement *ary, int aryLen);
 
+void testAnagrams();
+
 bool areAnagrams(char *word1, char *word2);
 
 Node *createNode(char *word);
@@ -113,7 +115,7 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 	while(fgets(word, MAX_WORD_SIZE, fp) != NULL){
 		//unused elements? resize array
 		AryElement element;
-		element.size - 1;
+		element.size -= 1;
 		element.head = createNode(word);
 		dictionary[curAryLen] = element;
 		curAryLen += 1;
@@ -157,7 +159,7 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 	// TO DO	
 	//As long as there are two or more words, print
 	for (int i=0; i<aryLen; i++){
-		char *toPrint
+		//char *toPrint;
 		if (ary->size > 2){
 			for (int j=0; j<ary->size; j++){
 
@@ -214,7 +216,6 @@ Node *createNode(char *word)
  ************************************************************************/
 bool areAnagrams(char *word1, char *word2)
 {
-
 	//create int array of size 26
 	int wordScore[26] = {0};
 
@@ -234,15 +235,11 @@ bool areAnagrams(char *word1, char *word2)
 		wordScore[index] -= 1;
 	}
 
-	//Add array total
-	int total = 0;
 	for (int i=0; i<26; i++){
-		total += wordScore[i];
+		if (wordScore[i] != 0){
+			return false;
+		}
 	}
 
-	if (total == 0){
-		return true;
-	}
-
-	return false;
+	return true;
 }
