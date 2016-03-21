@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+ #include <ctype.h>
 
 #define INITIAL_ARRAY_SIZE 10000
 #define MAX_WORD_SIZE 50
@@ -97,24 +98,41 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 	AryElement *ary = NULL;		// stores pointer to dynamically allocated array of structures
 	char word[MAX_WORD_SIZE];	// stores a word read from the input file
 	int curAryLen;				// stores current length/size of the array
-	int nbrUsedInAry = 0;		// stores number of actual entries in the array
+	int nbrUsedInAry = 0;		// stores number of actual entries in the freeAnagramArray		reallocate to this size  after we create the array
+	AryElement dictionary[INITIAL_ARRAY_SIZE];	//Array we are building
+	ary = dictionary;							//Pointer to this array we are building
 
 	// prepare the input file for reading
 	FILE *fp = fopen(infile,"r");
 	if (fp == NULL) {
 		fprintf(stderr,"Error opening file %s\n", infile);
 		exit(EXIT_FAILURE);
-	}
-	
-    ary = malloc(sizeof(struct node));
+	}	
+
+    //malloc(sizeof(struct node));
 	while(fgets(word, MAX_WORD_SIZE, fp) != NULL){
-		//printf("%s\n", word); 
-		ary = createNode(word);
-		ary->head = node;
-		node = ary;
+		//unused elements? resize array
+		AryElement element;
+		element.size - 1;
+		element.head = createNode(word);
+		dictionary[curAryLen] = element;
 		curAryLen += 1;
-		nbrUsedInAry += 1;
+		//nbrUsedInAry += 1;
 	}
+
+	for (int i=0; i<curAryLen; i++){
+		Node *currentWord = dictionary[i].head;
+		for (int j=0; j<curAryLen; j++){
+			if (currentWord->next != NULL){
+				if (areAnagrams(currentWord->text, currentWord->next->text)){
+					//currentWord
+				}
+			}			
+		}
+	}
+	//Add anagrams to list
+
+	//Do I need to release any unused memory
 
 	fclose(fp);
 	
@@ -137,6 +155,16 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 	}
 
 	// TO DO	
+	//As long as there are two or more words, print
+	for (int i=0; i<aryLen; i++){
+		char *toPrint
+		if (ary->size > 2){
+			for (int j=0; j<ary->size; j++){
+
+			}
+		}
+	}
+
 	
 	fclose(fp);
 }
@@ -174,8 +202,9 @@ Node *createNode(char *word)
 {
 	Node *node = NULL;
 	node = malloc(sizeof(struct node));
-	node.text = word;
-	node.next = NULL
+	node->text =  malloc(sizeof(word));
+	strcpy(word, node->text); //make a copy of word to save in
+	node->next = NULL;
 	return node;
 }
 
@@ -185,21 +214,33 @@ Node *createNode(char *word)
  ************************************************************************/
 bool areAnagrams(char *word1, char *word2)
 {
+
+	//create int array of size 26
+	int wordScore[26] = {0};
+
+	//words must be equal to be anagrams
 	if (sizeof(word1) != sizeof(word2)){
 		return false;
 	}
 
-	char *build[sizeof(word1)];
-	for (int i=0; i < sizeof(word1); i++){
-		for (int j=0; j<sizeof(word2); j++){
-			if (word1[i] == word2[j]){
-				build[i] = word2[i];
-				word2[j] = '';
-			}
-		}
+	//For each word, find the index of that word then subtracts if exist
+	for (int i=0; i<strlen(word1); i++){
+		int index = toupper(word1[i]) - 65;
+		wordScore[index] += 1;
+	}
+	//For other word, add if exists, end result should be zero
+	for (int i=0; i<strlen(word2); i++){
+		int index = toupper(word2[i]) - 65;
+		wordScore[index] -= 1;
 	}
 
-	if (word1 == build){
+	//Add array total
+	int total = 0;
+	for (int i=0; i<26; i++){
+		total += wordScore[i];
+	}
+
+	if (total == 0){
 		return true;
 	}
 
