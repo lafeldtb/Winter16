@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
- #include <ctype.h>
+#include <ctype.h>
 
 #define INITIAL_ARRAY_SIZE 10000
 #define MAX_WORD_SIZE 50
@@ -99,39 +99,56 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 {
 	AryElement *ary = NULL;		// stores pointer to dynamically allocated array of structures
 	char word[MAX_WORD_SIZE];	// stores a word read from the input file
-	int curAryLen;				// stores current length/size of the array
+	int curAryLen = INITIAL_ARRAY_SIZE;				// stores current length/size of the array
 	int nbrUsedInAry = 0;		// stores number of actual entries in the freeAnagramArray		reallocate to this size  after we create the array
 	AryElement dictionary[INITIAL_ARRAY_SIZE];	//Array we are building
 	ary = dictionary;							//Pointer to this array we are building
-
+	
 	// prepare the input file for reading
 	FILE *fp = fopen(infile,"r");
 	if (fp == NULL) {
 		fprintf(stderr,"Error opening file %s\n", infile);
 		exit(EXIT_FAILURE);
 	}	
+	
+	ary = malloc(INITIAL_ARRAY_SIZE * sizeof(AryElement));
 
-    //malloc(sizeof(struct node));
 	while(fgets(word, MAX_WORD_SIZE, fp) != NULL){
-		//unused elements? resize array
+		if (curAryLen == nbrUsedInAry){
+			curAryLen += 10000;
+			ary = realloc(ary, curAryLen * sizeof(AryElement));
+		}
 		AryElement element;
-		element.size -= 1;
+		element.size = 1;
 		element.head = createNode(word);
-		dictionary[curAryLen] = element;
-		curAryLen += 1;
-		//nbrUsedInAry += 1;
+		//printf("%d %d\n", nbrUsedInAry, curAryLen);
+		ary[nbrUsedInAry] = element;
+		nbrUsedInAry += 1;
 	}
 
-	for (int i=0; i<curAryLen; i++){
-		Node *currentWord = dictionary[i].head;
-		for (int j=0; j<curAryLen; j++){
-			if (currentWord->next != NULL){
-				if (areAnagrams(currentWord->text, currentWord->next->text)){
-					//currentWord
+	ary = realloc(ary, nbrUsedInAry * sizeof(AryElement));
+
+	//Iterate through list
+	for (int i=0; i<nbrUsedInAry; i++){
+		Node *firstWord = ary[i].head;
+		for (int j=0; j<nbrUsedInAry; j++){
+	 		Node *secondWord = ary[j].head;
+	 		char *word1 = firstWord->text;
+	 		char *word2 = secondWord->text;
+			if (word1 != word2 && areAnagrams(word1, word2)){
+				Node *toAdd = firstWord;
+				ary[i].size += 1;
+				while (toAdd != NULL){
+					toAdd = toAdd->next;
 				}
-			}			
+				toAdd = createNode(word2);
+			}
+	 		//printf("4\n");
 		}
+	 	//printf("%d\n", i);
 	}
+
+	//Check other 3
 	//Add anagrams to list
 
 	//Do I need to release any unused memory
@@ -139,6 +156,7 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 	fclose(fp);
 	
 	*aryLen = nbrUsedInAry;
+	printf("%d\n", *aryLen);
 
     return ary;
 }
@@ -156,15 +174,15 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 		exit(EXIT_FAILURE);
 	}
 
-	// TO DO	
 	//As long as there are two or more words, print
 	for (int i=0; i<aryLen; i++){
-		//char *toPrint;
-		if (ary->size > 2){
-			for (int j=0; j<ary->size; j++){
-
+		//if (ary->size > 2){
+		Node *toPrint = ary[i].head;
+			for (int j=0; j<ary[i].size; j++){
+			 	fprintf(fp, "%s", toPrint->text);
+				toPrint = ary[i].head->next;
 			}
-		}
+		//
 	}
 
 	
@@ -203,9 +221,9 @@ void freeAnagramArray(AryElement *ary, int aryLen)
 Node *createNode(char *word)
 {
 	Node *node = NULL;
-	node = malloc(sizeof(struct node));
-	node->text =  malloc(sizeof(word));
-	strcpy(word, node->text); //make a copy of word to save in
+	node = malloc(sizeof(Node));
+	node->text = malloc(sizeof(char)*MAX_WORD_SIZE);
+	strcpy(node->text, word); //make a copy of word to save in
 	node->next = NULL;
 	return node;
 }
