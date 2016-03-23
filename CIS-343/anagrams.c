@@ -118,45 +118,40 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 			curAryLen += 10000;
 			ary = realloc(ary, curAryLen * sizeof(AryElement));
 		}
-		AryElement element;
-		element.size = 1;
-		element.head = createNode(word);
-		//printf("%d %d\n", nbrUsedInAry, curAryLen);
-		ary[nbrUsedInAry] = element;
-		nbrUsedInAry += 1;
+		strtok(word, "\n");
+		Node *wordToAdd = createNode(word);
+		bool anagramFound = false;
+
+		for (int i=0; i<nbrUsedInAry; i++){
+			Node *head = ary[i].head;
+			int size = ary[i].size;
+			if (areAnagrams(wordToAdd->text, head->text)){
+				anagramFound = true;
+				for (int j=0; j<size; j++){
+					if (head->next == NULL){
+						head->next = wordToAdd;
+					}
+					else{
+						head = head->next;
+					}
+				}
+				ary[i].size = ary[i].size +1;
+			}
+		}
+		if (!anagramFound){
+			AryElement element;
+			element.head = wordToAdd;
+			element.size = 1;
+			ary[nbrUsedInAry] = element;
+			nbrUsedInAry += 1;
+		}	
 	}
 
 	ary = realloc(ary, nbrUsedInAry * sizeof(AryElement));
 
-	//Iterate through list
-	for (int i=0; i<nbrUsedInAry; i++){
-		Node *firstWord = ary[i].head;
-		for (int j=0; j<nbrUsedInAry; j++){
-	 		Node *secondWord = ary[j].head;
-	 		char *word1 = firstWord->text;
-	 		char *word2 = secondWord->text;
-			if (word1 != word2 && areAnagrams(word1, word2)){
-				Node *toAdd = firstWord;
-				ary[i].size += 1;
-				while (toAdd != NULL){
-					toAdd = toAdd->next;
-				}
-				toAdd = createNode(word2);
-			}
-	 		//printf("4\n");
-		}
-	 	//printf("%d\n", i);
-	}
-
-	//Check other 3
-	//Add anagrams to list
-
-	//Do I need to release any unused memory
-
 	fclose(fp);
 	
 	*aryLen = nbrUsedInAry;
-	printf("%d\n", *aryLen);
 
     return ary;
 }
@@ -174,18 +169,22 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 		exit(EXIT_FAILURE);
 	}
 
-	//As long as there are two or more words, print
+	int count =0;
 	for (int i=0; i<aryLen; i++){
-		//if (ary->size > 2){
 		Node *toPrint = ary[i].head;
-			for (int j=0; j<ary[i].size; j++){
-			 	fprintf(fp, "%s", toPrint->text);
-				toPrint = ary[i].head->next;
+		int size = ary[i].size;
+		if (size >= 2){
+			for (int j=0; j<size; j++){
+				if (j ==0 && count != 0) fprintf(fp, "\n");
+				count += 1;
+			 	fprintf(fp, "%s ", toPrint->text);
+				if (toPrint->next != NULL){
+					toPrint = toPrint->next;
+				}
 			}
-		//
+		}
 	}
 
-	
 	fclose(fp);
 }
 
