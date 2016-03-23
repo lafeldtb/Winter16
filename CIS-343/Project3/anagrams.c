@@ -174,6 +174,9 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 	int count =0;
 	for (int i=0; i<aryLen; i++){
 		Node *toPrint = ary[i].head;
+		if (toPrint == NULL){
+			break;
+		}
 		int size = ary[i].size;
 		if (size >= 2){
 			for (int j=0; j<size; j++){
