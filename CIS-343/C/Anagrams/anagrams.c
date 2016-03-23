@@ -160,7 +160,6 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
  ************************************************************************/
 void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 {
-	printf("Program gets to printAnagramArray");
 	FILE *fp = fopen(outfile, "w");
 	if (fp == NULL) {
 		fprintf(stderr,"Error opening file %s\n", outfile);
