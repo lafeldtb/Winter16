@@ -76,10 +76,9 @@ int main(int argc, char *argv[])
 		printf("Usage: ./anagrams infile outfile\n");
 		exit(EXIT_FAILURE);
 	}
-
+	printf("Correct files\n");
 	char *inFile = argv[1];
 	char *outFile = argv[2];
-	
 	ary = buildAnagramArray(inFile,&aryLen);
 
 	printAnagramArray(outFile,ary,aryLen);
@@ -110,7 +109,6 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 		fprintf(stderr,"Error opening file %s\n", infile);
 		exit(EXIT_FAILURE);
 	}	
-	
 	ary = malloc(INITIAL_ARRAY_SIZE * sizeof(AryElement));
 
 	while(fgets(word, MAX_WORD_SIZE, fp) != NULL){
@@ -146,9 +144,6 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 			nbrUsedInAry += 1;
 		}	
 	}
-
-	// TO DO
-	printf(fscanf(fp, "%s"));
 	ary = realloc(ary, nbrUsedInAry * sizeof(AryElement));
 
 	fclose(fp);
@@ -165,6 +160,7 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
  ************************************************************************/
 void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 {
+	printf("Program gets to printAnagramArray");
 	FILE *fp = fopen(outfile, "w");
 	if (fp == NULL) {
 		fprintf(stderr,"Error opening file %s\n", outfile);
@@ -174,9 +170,9 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 	int count =0;
 	for (int i=0; i<aryLen; i++){
 		Node *toPrint = ary[i].head;
-		if (toPrint == NULL){
-			break;
-		}
+//		if (toPrint == NULL){
+//			break;
+//		}
 		int size = ary[i].size;
 		if (size >= 2){
 			for (int j=0; j<size; j++){
