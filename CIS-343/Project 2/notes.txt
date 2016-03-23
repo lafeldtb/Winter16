@@ -1,0 +1,15 @@
+Notes for the assignment.
+
+Only edit matrix.c
+
+Fuck memory allocation
+Fuck C
+
+The data in each matrix is actually stored as a 1D array
+even though there are rows and columns
+
+to access an element: do array[row*columns + column]
+where:
+	row is a local variable, the row you want to access
+	column is a local variable, the column you want to access
+	columns is a STATIC variable belonging to the struct.
