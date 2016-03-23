@@ -107,7 +107,7 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 	}
 
 	// TO DO
-	
+	printf(fscanf(fp, "%s"));
 	fclose(fp);
 	
 	*aryLen = nbrUsedInAry;
