@@ -4,17 +4,18 @@
  * Reads from a dictionary of words and builds lists of anagrams		*
  * (see example dictionary files and output produced for each 			*
  * input/dictionary file).												*
- *																		*
+ *																	o	*
  * An anagram is a word formed by rearranging the letters of another	*
  * word such as the word "cinema" formed from the word "iceman".		*
  *																		*
- * Author(s): 															*
+ * Author(s): 	Mattie Phillips and Ben LaFeldt							*
  ***********************************************************************/
 
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define INITIAL_ARRAY_SIZE 10000
 #define MAX_WORD_SIZE 50
@@ -49,6 +50,8 @@ AryElement *buildAnagramArray(char *infile, int *aryLen);
 void printAnagramArray(char *outfile, AryElement *ary, int aryLen);
 
 void freeAnagramArray(AryElement *ary, int aryLen);
+
+void testAnagrams();
 
 bool areAnagrams(char *word1, char *word2);
 
@@ -96,18 +99,58 @@ AryElement *buildAnagramArray(char *infile, int *aryLen)
 {
 	AryElement *ary = NULL;		// stores pointer to dynamically allocated array of structures
 	char word[MAX_WORD_SIZE];	// stores a word read from the input file
-	int curAryLen;				// stores current length/size of the array
-	int nbrUsedInAry = 0;		// stores number of actual entries in the array
-
+	int curAryLen = INITIAL_ARRAY_SIZE;				// stores current length/size of the array
+	int nbrUsedInAry = 0;		// stores number of actual entries in the freeAnagramArray		reallocate to this size  after we create the array
+	AryElement dictionary[INITIAL_ARRAY_SIZE];	//Array we are building
+	ary = dictionary;							//Pointer to this array we are building
+	
 	// prepare the input file for reading
 	FILE *fp = fopen(infile,"r");
 	if (fp == NULL) {
 		fprintf(stderr,"Error opening file %s\n", infile);
 		exit(EXIT_FAILURE);
+	}	
+	
+	ary = malloc(INITIAL_ARRAY_SIZE * sizeof(AryElement));
+
+	while(fgets(word, MAX_WORD_SIZE, fp) != NULL){
+		if (curAryLen == nbrUsedInAry){
+			curAryLen += 10000;
+			ary = realloc(ary, curAryLen * sizeof(AryElement));
+		}
+		strtok(word, "\n");
+		Node *wordToAdd = createNode(word);
+		bool anagramFound = false;
+
+		for (int i=0; i<nbrUsedInAry; i++){
+			Node *head = ary[i].head;
+			int size = ary[i].size;
+			if (areAnagrams(wordToAdd->text, head->text)){
+				anagramFound = true;
+				for (int j=0; j<size; j++){
+					if (head->next == NULL){
+						head->next = wordToAdd;
+					}
+					else{
+						head = head->next;
+					}
+				}
+				ary[i].size = ary[i].size +1;
+			}
+		}
+		if (!anagramFound){
+			AryElement element;
+			element.head = wordToAdd;
+			element.size = 1;
+			ary[nbrUsedInAry] = element;
+			nbrUsedInAry += 1;
+		}	
 	}
 
 	// TO DO
 	printf(fscanf(fp, "%s"));
+	ary = realloc(ary, nbrUsedInAry * sizeof(AryElement));
+
 	fclose(fp);
 	
 	*aryLen = nbrUsedInAry;
@@ -128,8 +171,22 @@ void printAnagramArray(char *outfile, AryElement *ary, int aryLen)
 		exit(EXIT_FAILURE);
 	}
 
-	// TO DO
-	
+	int count =0;
+	for (int i=0; i<aryLen; i++){
+		Node *toPrint = ary[i].head;
+		int size = ary[i].size;
+		if (size >= 2){
+			for (int j=0; j<size; j++){
+				if (j ==0 && count != 0) fprintf(fp, "\n");
+				count += 1;
+			 	fprintf(fp, "%s ", toPrint->text);
+				if (toPrint->next != NULL){
+					toPrint = toPrint->next;
+				}
+			}
+		}
+	}
+
 	fclose(fp);
 }
 
@@ -165,9 +222,10 @@ void freeAnagramArray(AryElement *ary, int aryLen)
 Node *createNode(char *word)
 {
 	Node *node = NULL;
-
-	// TO DO
-	
+	node = malloc(sizeof(Node));
+	node->text = malloc(sizeof(char)*MAX_WORD_SIZE);
+	strcpy(node->text, word); //make a copy of word to save in
+	node->next = NULL;
 	return node;
 }
 
@@ -177,7 +235,30 @@ Node *createNode(char *word)
  ************************************************************************/
 bool areAnagrams(char *word1, char *word2)
 {
-	// TO DO
+	//create int array of size 26
+	int wordScore[26] = {0};
+
+	//words must be equal to be anagrams
+	if (sizeof(word1) != sizeof(word2)){
+		return false;
+	}
+
+	//For each word, find the index of that word then subtracts if exist
+	for (int i=0; i<strlen(word1); i++){
+		int index = toupper(word1[i]) - 65;
+		wordScore[index] += 1;
+	}
+	//For other word, add if exists, end result should be zero
+	for (int i=0; i<strlen(word2); i++){
+		int index = toupper(word2[i]) - 65;
+		wordScore[index] -= 1;
+	}
+
+	for (int i=0; i<26; i++){
+		if (wordScore[i] != 0){
+			return false;
+		}
+	}
 
 	return true;
 }
