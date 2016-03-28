@@ -1,7 +1,7 @@
 #
 #  Minesweeper game
 #
-#  Author(s): YOUR NAME(S)
+#  Author(s): Mattie Phillips & Ben LaFeldt
 #
 
 #
@@ -59,8 +59,18 @@ class Minesweeper
   end
   
   # places mines randomly on the board
+# TODO
   def place_mines_on_board
-    
+    nbr_left = @nbr_mines
+	while nbr_left > 0
+		row = rand(0..@board_size)
+		col = rand(0..@board_size)
+		#WHY ISN'T THIS LINE WORKING??
+		if !@board[row][col].is_mine
+			@board[row][col].is_mine = true
+			nbr_left -= 1
+		end
+	end
   end
   
   # for each non-mine cell on the board, set @nbr_mines of each Cell on the board
