@@ -59,41 +59,92 @@ class Minesweeper
   end
   
   # places mines randomly on the board
-# TODO
   def place_mines_on_board
     nbr_left = @nbr_mines
+	temp_board = @board
 	while nbr_left > 0
-		row = rand(0..@board_size)
-		col = rand(0..@board_size)
-		#WHY ISN'T THIS LINE WORKING??
-		if !@board[row][col].is_mine
-			@board[row][col].is_mine = true
+		row = rand(0...@board_size)
+		col = rand(0...@board_size)
+		if !temp_board[row][col].is_mine
+			temp_board[row][col].is_mine = true
 			nbr_left -= 1
 		end
 	end
+	temp_board
   end
   
   # for each non-mine cell on the board, set @nbr_mines of each Cell on the board
   # to the number of mines in the immediate neighborhood.
   def fill_in_minecount_for_non_mine_cells
-    
+	temp_board = @board
+	row = 0
+	while row < @board_size
+		col = 0
+			while col < @board_size
+				if !temp_board[row][col].is_mine
+					temp_board[row][col].nbr_mines = get_nbr_neighbor_mines(row,col)
+				end
+			col += 1
+			end
+	row += 1
+	end
+	temp_board
   end
     
   # processes cell selection by user during the game
   # returns Constants::WON, Constants::LOST, or Constants::INPROGRESS
   def select_cell(row,col)
-    
+	board = @board
+	if board[row][col].nbr_mines == 0
+		set_all_neighbor_cells_visible(row,col)
+	end
+	board[row][col].visible = true
+	if board[row][col].is_mine
+		return Constants::LOST
+	elsif nbr_visible_cells() == (@board_size*@board_size)-@nbr_mines
+		return Constants::WON
+	end
+
+	return Constants::INPROGRESS
   end
   
   # returns the number of mines in the immediate neighborhood of a cell
   # at location (row,col) on the board.
   def get_nbr_neighbor_mines(row,col)
-
+	count = 0
+	currentCol = col-1
+	while currentCol<col+2
+		if currentCol >= 0 and currentCol < @board_size
+			currentRow = row-1
+			while currentRow<row+2
+				if currentRow < @board_size and currentRow >= 0
+					if @board[currentRow][currentCol].is_mine
+						count+=1
+					end
+				end
+			currentRow += 1
+			end
+		end
+	currentCol+=1
+	end
+	count
   end
   
   # returns the number of cells that are currently visible on the board
   def nbr_visible_cells
-
+	count = 0
+	row = 0
+	while row < @board_size
+		col = 0
+		while col < @board_size
+			if @board[row][col].visible
+				count += 1
+			end
+		col += 1
+		end
+	row += 1
+	end
+	count
   end
   
   # if the mine count of a cell at location (row,col) is zero, then make
@@ -107,7 +158,25 @@ class Minesweeper
   # process for each of the cells in this set of cells that have a mine
   # count of zero, and so on.
   def set_all_neighbor_cells_visible(row,col)
-    
+	board = @board
+	if !board[row][col].visible 
+		board[row][col].visible = true
+		if board[row][col].nbr_mines == 0
+			if row < @board_size-1
+				set_all_neighbor_cells_visible(row+1,col)
+			end
+			if row > 0
+				set_all_neighbor_cells_visible(row-1,col)
+			end
+			if col < @board_size-1
+				set_all_neighbor_cells_visible(row,col+1)
+			end
+			if col > 0
+				set_all_neighbor_cells_visible(row,col-1)
+			end
+		end
+	end
+	board
   end
   
   # returns a string representation of the board
@@ -122,9 +191,9 @@ class Minesweeper
       str << sprintf("%3d",i+1)
       for j in 0...@board_size
         if @board[i][j].visible
-          str << (@board[i][j].is_mine ? sprintf("  *") : sprintf("%3d", @board[i][j].nbr_mines))
+          str << (@board[i][j].is_mine ? sprintf(" \x1b[30;41m*\x1b[0m") : sprintf("%3d\x1b[0m", @board[i][j].nbr_mines))
         else
-          str << (display_mines && @board[i][j].is_mine ? sprintf("  *") : sprintf("  ?"))
+          str << (display_mines && @board[i][j].is_mine ? sprintf("  \x1b[30;41m*\x1b[0m") : sprintf("  ?"))
         end
       end
       str << "\n"
