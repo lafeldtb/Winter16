@@ -1,12 +1,12 @@
-require "test/unit"
-require "./Matrix.rb"
+require "minitest/autorun"
+require "./Matrix"
 
 #
 # Unit tests for Matrix class (DO NOT MODIFY)
 # Author: Jag Nandigam
 #
-class MatrixTest < Test::Unit::TestCase
-  
+class MatrixTest < Minitest::Test
+
   def test_initialize_1
     m1 = Matrix.new(3,4,10)
     assert_equal("10 10 10 10\n10 10 10 10\n10 10 10 10",m1.to_s().strip())
@@ -28,23 +28,23 @@ class MatrixTest < Test::Unit::TestCase
   end
     
   def test_initialize_5() 
-    assert_raise(ArgumentError)  { Matrix.new(1.5,"abc",nil) }
+    assert_raises(ArgumentError)  { Matrix.new(1.5,"abc",nil) }
   end
   
   def test_initialize_6() 
-    assert_raise(ArgumentError)  { Matrix.new(1.5,"abc") }
+    assert_raises(ArgumentError)  { Matrix.new(1.5,"abc") }
   end
     
   def test_initialize_7() 
-    assert_raise(ArgumentError)  { Matrix.new(1.5) }
+    assert_raises(ArgumentError)  { Matrix.new(1.5) }
   end
     
   def test_initialize_8() 
-    assert_raise(ArgumentError)  { Matrix.new("testing with some junk") }
+    assert_raises(ArgumentError)  { Matrix.new("testing with some junk") }
   end
     
   def test_initialize_9() 
-    assert_raise(ArgumentError)  { Matrix.new(-3,-5,5) }
+    assert_raises(ArgumentError)  { Matrix.new(-3,-5,5) }
   end
     
   def test_get_1() 
@@ -59,17 +59,17 @@ class MatrixTest < Test::Unit::TestCase
   
   def test_get_3() 
     m1 = Matrix.new(3,4,5)
-    assert_raise(ArgumentError)  { m1.get(3,4) }
+    assert_raises(ArgumentError)  { m1.get(3,4) }
   end
   
   def test_get_4() 
     m1 = Matrix.new(3,4,5)
-    assert_raise(ArgumentError)  { m1.get(3.0,4.0) }
+    assert_raises(ArgumentError)  { m1.get(3.0,4.0) }
   end
     
   def test_get_5() 
     m1 = Matrix.new(3,4,5)
-    assert_raise(ArgumentError)  { m1.get("first","third") }
+    assert_raises(ArgumentError)  { m1.get("first","third") }
   end
     
   def test_set_1() 
@@ -86,17 +86,17 @@ class MatrixTest < Test::Unit::TestCase
 
   def test_set_3() 
     m1 = Matrix.new(3,4)
-    assert_raise(ArgumentError)  { m1.set(3,4,5) }
+    assert_raises(ArgumentError)  { m1.set(3,4,5) }
   end
   
   def test_set_4() 
     m1 = Matrix.new(3,4)
-    assert_raise(ArgumentError)  { m1.set(3.0,4.0,5) }
+    assert_raises(ArgumentError)  { m1.set(3.0,4.0,5) }
   end
     
   def test_set_5() 
     m1 = Matrix.new(3,4)
-    assert_raise(ArgumentError)  { m1.set("first","third",5.0) }
+    assert_raises(ArgumentError)  { m1.set("first","third",5.0) }
   end
         
   def test_add_1
@@ -109,12 +109,12 @@ class MatrixTest < Test::Unit::TestCase
   def test_add_2
     m1 = Matrix.new(3,4,10)
     m2 = Matrix.new(3,5,20)
-    assert_raise(IncompatibleMatricesError)  { m1.add(m2) }
+    assert_raises(IncompatibleMatricesError)  { m1.add(m2) }
   end
    
   def test_add_3
     m1 = Matrix.new(3,4,10)
-    assert_raise(ArgumentError)  { m1.add("junk") }
+    assert_raises(ArgumentError)  { m1.add("junk") }
   end
   
   def test_subtract_1
@@ -126,12 +126,12 @@ class MatrixTest < Test::Unit::TestCase
   def test_subtract_2
     m1 = Matrix.new(3,4,10)
     m2 = Matrix.new(3,5,20)
-    assert_raise(IncompatibleMatricesError)  { m1.subtract(m2) }
+    assert_raises(IncompatibleMatricesError)  { m1.subtract(m2) }
   end
    
   def test_subtract_3
     m1 = Matrix.new(3,4,10)
-    assert_raise(ArgumentError)  { m1.subtract("junk") }
+    assert_raises(ArgumentError)  { m1.subtract("junk") }
   end
   
   def test_scalarmult_1
@@ -142,12 +142,12 @@ class MatrixTest < Test::Unit::TestCase
   
   def test_scalarmult_2
     m1 = Matrix.new(3,4,10)
-    assert_raise(ArgumentError)  { m1.scalarmult(5.0) }
+    assert_raises(ArgumentError)  { m1.scalarmult(5.0) }
   end
     
   def test_scalarmult_3
     m1 = Matrix.new(3,4,10)
-    assert_raise(ArgumentError)  { m1.scalarmult("junk") }
+    assert_raises(ArgumentError)  { m1.scalarmult("junk") }
   end
   
   def test_multiply_1
@@ -174,12 +174,12 @@ class MatrixTest < Test::Unit::TestCase
   def test_multiply_4
     m1 = Matrix.new(4,3,10)
     m2 = Matrix.new(4,3,10)
-    assert_raise(IncompatibleMatricesError)  { m1.multiply(m2) }
+    assert_raises(IncompatibleMatricesError)  { m1.multiply(m2) }
   end
   
   def test_multiply_5
     m1 = Matrix.new(4,3,10)
-    assert_raise(ArgumentError)  { m1.multiply("junk") }
+    assert_raises(ArgumentError)  { m1.multiply("junk") }
   end
   
   def test_transpose_1
@@ -209,12 +209,12 @@ class MatrixTest < Test::Unit::TestCase
   def test_plus_2
     m1 = Matrix.new(3,4,10)
     m2 = Matrix.new(3,5,20)
-    assert_raise(IncompatibleMatricesError)  { m1 + m2 }
+    assert_raises(IncompatibleMatricesError)  { m1 + m2 }
   end
    
   def test_plus_3
     m1 = Matrix.new(3,4,10)
-    assert_raise(ArgumentError)  { m1 + "junk" }
+    assert_raises(ArgumentError)  { m1 + "junk" }
   end
   
   def test_minus_1
@@ -226,12 +226,12 @@ class MatrixTest < Test::Unit::TestCase
   def test_minus_2
     m1 = Matrix.new(3,4,10)
     m2 = Matrix.new(3,5,20)
-    assert_raise(IncompatibleMatricesError)  { m1 - m2 }
+    assert_raises(IncompatibleMatricesError)  { m1 - m2 }
   end
    
   def test_minus_3
     m1 = Matrix.new(3,4,10)
-    assert_raise(ArgumentError)  { m1 - "junk" }
+    assert_raises(ArgumentError)  { m1 - "junk" }
   end
   
   def test_times_1
@@ -258,12 +258,12 @@ class MatrixTest < Test::Unit::TestCase
   def test_times_4
     m1 = Matrix.new(4,3,10)
     m2 = Matrix.new(4,3,10)
-    assert_raise(IncompatibleMatricesError)  { m1 * m2 }
+    assert_raises(IncompatibleMatricesError)  { m1 * m2 }
   end
   
   def test_times_5
     m1 = Matrix.new(4,3,10)
-    assert_raise(ArgumentError)  { m1 * "junk" }
+    assert_raises(ArgumentError)  { m1 * "junk" }
   end
   
   def test_identity_1
@@ -277,15 +277,15 @@ class MatrixTest < Test::Unit::TestCase
   end
   
   def test_identity_3
-    assert_raise(ArgumentError) { Matrix.identity(0) }
+    assert_raises(ArgumentError) { Matrix.identity(0) }
   end
   
   def test_identity_4
-    assert_raise(ArgumentError) { Matrix.identity("junk") }
+    assert_raises(ArgumentError) { Matrix.identity("junk") }
   end
   
   def test_identity_5
-    assert_raise(ArgumentError) { Matrix.identity(false) }
+    assert_raises(ArgumentError) { Matrix.identity(false) }
   end
   
   def test_fill_1
@@ -296,36 +296,38 @@ class MatrixTest < Test::Unit::TestCase
   
   def test_fill_2
     m1 = Matrix.new(3,4)
-    assert_raise(ArgumentError) { m1.fill(5.0) }
+    assert_raises(ArgumentError) { m1.fill(5.0) }
   end
   
   def test_fill_3
     m1 = Matrix.new(3,4)
-    assert_raise(ArgumentError) { m1.fill("junk") }
+    assert_raises(ArgumentError) { m1.fill("junk") }
   end
   
   def test_fill_4
     m1 = Matrix.new(3,4)
-    assert_raise(ArgumentError) { m1.fill(1..5) }
+    assert_raises(ArgumentError) { m1.fill(1..5) }
   end
   
   def test_fill_5
     m1 = Matrix.new(3,4)
-    assert_raise(ArgumentError) { m1.fill(false) }
+    assert_raises(ArgumentError) { m1.fill(false) }
   end
   
   def test_clone_1
     m1 = Matrix.new(3,4,5)
     m2 = m1.clone()
     assert_equal(m1,m2)
-    assert_not_same(m1,m2)
+    refute_same(m1,m2)
+    #assert_not_same(m1,m2)
   end
   
   def test_clone_2
     m1 = Matrix.new(3,4)
     m2 = m1.clone()
     assert_equal(m1,m2)
-    assert_not_same(m1,m2)
+    refute_same(m1,m2)
+    #assert_not_same(m1,m2)
   end
   
   def test_equalop_1
