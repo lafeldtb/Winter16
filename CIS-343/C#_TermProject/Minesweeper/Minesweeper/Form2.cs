@@ -10,20 +10,17 @@ using System.Windows.Forms;
 
 namespace Minesweeper
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
-        Game g;
-        public Form1()
+        public int percentMines;
+        public Form2()
         {
             InitializeComponent();
-            this.Hide();
-            g = new Game();
-            this.Show();
         }
 
-        private void button0_Click(object sender, EventArgs e)
+        private void confirmButton_Click(object sender, EventArgs e)
         {
-            
+            percentMines = Int32.Parse(minePercent.Text);
         }
     }
 }
