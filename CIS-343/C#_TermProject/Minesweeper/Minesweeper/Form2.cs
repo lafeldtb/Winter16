@@ -21,6 +21,8 @@ namespace Minesweeper
         private void confirmButton_Click(object sender, EventArgs e)
         {
             percentMines = Int32.Parse(minePercent.Text);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

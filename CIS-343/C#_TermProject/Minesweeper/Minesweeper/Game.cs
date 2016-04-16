@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Minesweeper
 {
@@ -11,7 +12,7 @@ namespace Minesweeper
         //Global Variables
         Tile[][] board;
         int percentMines;
-        //Constructor: creates a new game
+        //Constructor: guides the gameplay
         public Game()
         {
             newGame();
@@ -21,10 +22,14 @@ namespace Minesweeper
         private /*Tile[][]*/ void newGame()
         {
             //Tile[][] tempBoard;
-            Form2 form2 = new Form2();
-            form2.ShowDialog();
-            percentMines = form2.percentMines;
-            // TODO: get percentMines as form2 closes
+            using (Form2 form2 = new Form2())
+            {
+                DialogResult d = form2.ShowDialog();
+                if (d == DialogResult.OK)
+                {
+                    percentMines = form2.percentMines;
+                }
+            }
 
             //return tempBoard;
         }
