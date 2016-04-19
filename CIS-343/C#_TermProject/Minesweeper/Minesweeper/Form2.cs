@@ -21,8 +21,15 @@ namespace Minesweeper
         private void confirmButton_Click(object sender, EventArgs e)
         {
             percentMines = Int32.Parse(minePercent.Text);
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            if (!(percentMines >= 10 && percentMines <= 70))
+            {
+                warningLabel.Visible = true;
+            }
+            else
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
         }
     }
 }

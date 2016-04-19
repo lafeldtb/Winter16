@@ -9,18 +9,18 @@ namespace Minesweeper
     class Tile
     {
         //Defining properties of a tile
-        private int nbrMines
+        public int nbrMines
         {
             get;
             set;
         }
 
-        private bool isMine
+        public bool isMine
         {
             get;
             set;
         }
-        private bool visible
+        public bool isVisible
         {
             get;
             set;
@@ -30,7 +30,7 @@ namespace Minesweeper
         {
             nbrMines = 0;
             isMine = false;
-            visible = false;
+            isVisible = false;
         }
     }
 }

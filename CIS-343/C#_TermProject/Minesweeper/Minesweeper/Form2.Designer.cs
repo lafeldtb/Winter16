@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.minePercent = new System.Windows.Forms.TextBox();
             this.confirmButton = new System.Windows.Forms.Button();
+            this.warningLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -60,11 +61,23 @@
             this.confirmButton.UseVisualStyleBackColor = true;
             this.confirmButton.Click += new System.EventHandler(this.confirmButton_Click);
             // 
+            // warningLabel
+            // 
+            this.warningLabel.AutoSize = true;
+            this.warningLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.warningLabel.Location = new System.Drawing.Point(39, 64);
+            this.warningLabel.Name = "warningLabel";
+            this.warningLabel.Size = new System.Drawing.Size(190, 13);
+            this.warningLabel.TabIndex = 3;
+            this.warningLabel.Text = "Must be an integer between 10 and 70";
+            this.warningLabel.Visible = false;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(255, 131);
+            this.Controls.Add(this.warningLabel);
             this.Controls.Add(this.confirmButton);
             this.Controls.Add(this.minePercent);
             this.Controls.Add(this.label1);
@@ -81,5 +94,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox minePercent;
         private System.Windows.Forms.Button confirmButton;
+        private System.Windows.Forms.Label warningLabel;
     }
 }

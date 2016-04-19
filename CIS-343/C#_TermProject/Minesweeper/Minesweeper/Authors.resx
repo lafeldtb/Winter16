@@ -117,9 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="projInfo" xml:space="preserve">
-    <value>Additional Information:
-Code created for CIS 343 Project 6 in
-correlation with the group research paper</value>
-  </data>
 </root>

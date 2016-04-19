@@ -130,7 +130,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button0 = new System.Windows.Forms.Button();
             this.timerLabel = new System.Windows.Forms.Label();
-            this.minesLeftLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1353,20 +1352,11 @@
             // timerLabel
             // 
             this.timerLabel.AutoSize = true;
-            this.timerLabel.Location = new System.Drawing.Point(8, 24);
+            this.timerLabel.Location = new System.Drawing.Point(203, 24);
             this.timerLabel.Name = "timerLabel";
             this.timerLabel.Size = new System.Drawing.Size(25, 13);
             this.timerLabel.TabIndex = 1;
             this.timerLabel.Text = "000";
-            // 
-            // minesLeftLabel
-            // 
-            this.minesLeftLabel.AutoSize = true;
-            this.minesLeftLabel.Location = new System.Drawing.Point(395, 24);
-            this.minesLeftLabel.Name = "minesLeftLabel";
-            this.minesLeftLabel.Size = new System.Drawing.Size(25, 13);
-            this.minesLeftLabel.TabIndex = 2;
-            this.minesLeftLabel.Text = "999";
             // 
             // menuStrip1
             // 
@@ -1392,6 +1382,7 @@
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
             this.newGameToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.newGameToolStripMenuItem.Text = "New Game";
+            this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -1406,27 +1397,29 @@
             // showMinesToolStripMenuItem
             // 
             this.showMinesToolStripMenuItem.Name = "showMinesToolStripMenuItem";
-            this.showMinesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.showMinesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.showMinesToolStripMenuItem.Text = "Show Mines";
+            this.showMinesToolStripMenuItem.Click += new System.EventHandler(this.showMinesToolStripMenuItem_Click);
             // 
             // hideMinesToolStripMenuItem
             // 
             this.hideMinesToolStripMenuItem.Name = "hideMinesToolStripMenuItem";
-            this.hideMinesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.hideMinesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.hideMinesToolStripMenuItem.Text = "Hide Mines";
+            this.hideMinesToolStripMenuItem.Click += new System.EventHandler(this.hideMinesToolStripMenuItem_Click);
             // 
             // authorsToolStripMenuItem
             // 
             this.authorsToolStripMenuItem.Name = "authorsToolStripMenuItem";
             this.authorsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.authorsToolStripMenuItem.Text = "Authors";
+            this.authorsToolStripMenuItem.Click += new System.EventHandler(this.authorsToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(428, 459);
-            this.Controls.Add(this.minesLeftLabel);
             this.Controls.Add(this.timerLabel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
@@ -1447,7 +1440,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button0;
         private System.Windows.Forms.Label timerLabel;
-        private System.Windows.Forms.Label minesLeftLabel;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
