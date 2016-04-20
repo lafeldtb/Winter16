@@ -10,12 +10,17 @@ namespace Minesweeper
     class Game
     {
         //Global Variables
+        
         public Tile[][] board;
         public double percentMines;
         public int size;
+        public bool INPROGRESS;
+        public bool WIN;
+        public bool LOSE;
         //Constructor: guides the gameplay
         public Game()
         {
+            
             size = 10;
             newGame();
             
@@ -24,6 +29,9 @@ namespace Minesweeper
         //Creates a new game
         public void newGame()
         {
+            INPROGRESS = true;
+            WIN = false;
+            LOSE = false;
             Tile[][] tempBoard;
             using (Form2 form2 = new Form2())
             {
@@ -122,13 +130,57 @@ namespace Minesweeper
 
         }
 
-        /**
         //Necessary for win condition
-        // TODO: complete this method
-        private int nbrVisibleMines()
+        private int nbrVisibleCells()
         {
-
+            int count = 0;
+            for(int row = 0; row < size; row++)
+            {
+                for(int col = 0; col < size; col++)
+                {
+                    if (board[row][col].isVisible)
+                        count++;
+                }
+            }
+            return count;
         }
-        */
+
+        private void setNeighborCellsVisible(int row, int col)
+        {
+            if(!board[row][col].isVisible)
+            {
+                board[row][col].isVisible = true;
+                if(board[row][col].nbrMines == 0)
+                {
+                    if (row < size - 1)
+                        setNeighborCellsVisible(row + 1, col);
+                    if (row > 0)
+                        setNeighborCellsVisible(row - 1, col);
+                    if (col < size - 1)
+                        setNeighborCellsVisible(row, col + 1);
+                    if (col > 0)
+                        setNeighborCellsVisible(row, col - 1);
+                }
+            }
+        }
+
+        public void selectCell(int row, int col)
+        {
+            if (board[row][col].nbrMines == 0)
+                setNeighborCellsVisible(row, col);
+            board[row][col].isVisible = true;
+            if (board[row][col].isMine)
+            {
+                INPROGRESS = false;
+                LOSE = true;
+                System.Console.WriteLine("Player Loses");
+            } else if (nbrVisibleCells() == (size* size)-((int)(size * size * percentMines)))
+            {
+                INPROGRESS = false;
+                WIN = true;
+                System.Console.WriteLine("Player Wins!");
+            }
+            System.Console.WriteLine("{0}, {1} Selected",row,col);
+        }
     }
 }
